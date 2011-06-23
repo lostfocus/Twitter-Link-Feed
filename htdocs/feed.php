@@ -38,6 +38,8 @@ foreach($content as $tweet){
 			$display_url = $url->url;
 			if(isset($url->expanded_url) && ($url->expanded_url != NULL)) $expanded_url = $url->expanded_url;
 			if(isset($url->display_url) && ($url->display_url != NULL)) $display_url = $url->display_url;
+			$expanded_url = str_replace("<","&lt;",str_replace("&","&amp;",$expanded_url));
+			$display_url = str_replace("<","&lt;",str_replace("&","&amp;",$display_url));
 			$content .= sprintf("<a href='%s'>%s</a><br />\n",$expanded_url, $display_url);
 		}
 		
