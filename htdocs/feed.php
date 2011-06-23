@@ -52,7 +52,7 @@ foreach($content as $tweet){
 					<?php echo $content; ?>
 				</div>
 			</content>
-			<summary><?php echo strip_tags($content); ?></summary>
+			<summary><?php echo $tweet->text; ?></summary>
 		</entry>
 <?php
 	}
