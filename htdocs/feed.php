@@ -3,7 +3,7 @@ require_once('../includes/twitteroauth.php');
 require_once('../config/config.php');
 
 $connection = new TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_SECRET);
-
+$connection->host = "https://api.twitter.com/1.1/";
 $params = array('include_entities' => 'true','count' => 200);
 $content = $connection->get('statuses/home_timeline',$params);
 
