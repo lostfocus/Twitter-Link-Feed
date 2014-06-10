@@ -54,7 +54,7 @@ foreach($content as $tweet){
 					<?php echo $content; ?>
 				</div>
 			</content>
-			<summary><?php echo $tweet->text; ?></summary>
+			<summary type="html"><?php echo $tweet->text; ?></summary>
 		</entry>
 <?php
 	}
