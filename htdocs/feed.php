@@ -1,16 +1,18 @@
 <?php
 require_once('../includes/twitteroauth.php');
+require_once('../includes/URLResolver/URLResolver.php');
 require_once('../config/config.php');
 
 $connection = new TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_SECRET);
 $connection->host = "https://api.twitter.com/1.1/";
-$params = array('include_entities' => 'true','count' => 200);
+$params = array('include_entities' => 'true','count' => 40);
 $content = $connection->get('statuses/home_timeline',$params);
 
 // TODO: Fail more gracefully
 if(!is_array($content)) die();
 header("Content-Type: application/atom+xml; charset=UTF-8");
 echo '<?xml version="1.0" encoding="utf-8"?>'."\n";
+$resolver = new URLResolver();
 ?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 	<title>Links from your Twitter account.</title>
@@ -38,6 +40,7 @@ foreach($content as $tweet){
 			$display_url = $url->url;
 			if(isset($url->expanded_url) && ($url->expanded_url != NULL)) $expanded_url = $url->expanded_url;
 			if(isset($url->display_url) && ($url->display_url != NULL)) $display_url = $url->display_url;
+			$expanded_url = $resolver->resolveURL($expanded_url)->getURL();
 			$expanded_url = str_replace("<","&lt;",str_replace("&","&amp;",$expanded_url));
 			$display_url = str_replace("<","&lt;",str_replace("&","&amp;",$display_url));
 			$content .= sprintf("<a href='%s'>%s</a><br />\n",$expanded_url, $display_url);
